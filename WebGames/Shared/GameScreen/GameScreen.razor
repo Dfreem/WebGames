@@ -1,0 +1,42 @@
+﻿@using WebGames.Games
+
+
+<div class="container-fluid">
+    <div class="screen-grid mx-auto">
+
+
+        @if (ChildContent != null)
+        {
+            @ChildContent
+        }
+        else
+        {
+            <div class="bg-black h-inherit d-flex">
+                <div class="text-white mx-auto my-auto flex-column d-flex">
+                    <div class="spinner-border mx-auto my-2">
+                    </div>
+                    <div class="text-center m-1">
+                        loading...
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public IGame CurrentGame { get; set; } = default!;
+
+    string _cssStyle = string.Empty;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+    }
+
+}

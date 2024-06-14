@@ -1,0 +1,65 @@
+﻿@use "sass:color";
+
+@import "../lib/bootstrap/scss/_functions.scss";
+
+/* Bootstrap variable override
+    uncomment and set bootstrap colors.
+*/
+
+@import '_variables.scss';
+
+$theme-colors: ("primary": $primary, "secondary": $secondary, "tertiary": $tertiary, "info": $info, "danger": $danger);
+
+@import "../lib/bootstrap/scss/_maps.scss";
+@import "../lib/bootstrap/scss/_mixins.scss";
+@import "../lib/bootstrap/scss/_root.scss";
+@import "../lib/bootstrap/scss/_buttons.scss";
+@import "../lib/bootstrap/scss/_utilities.scss";
+@import "../lib/bootstrap/scss/helpers/_colored-links.scss";
+@import "../lib/bootstrap/scss/helpers/_color-bg.scss";
+@import "_callout.scss";
+@import "game";
+
+$all-colors: map-merge-multiple(
+    $blues, $reds, $oranges, $yellows, $greens, $purples, $teals, $grays, $theme-colors);
+$theme-colors: map-merge-multiple($theme-colors, $all-colors);
+$utilities-bg: map-merge-multiple($theme-colors, $utilities-bg);
+
+$df-breakpoints: ("10": 10%,"11": 11%,"12": 12%,"13":13%, "14":14%, "15":15%, "16":16%, "17":17%, "18":18%, "19":19%, "20": 20%, "30": 30%, "40": 40%, "50": 50%, "60": 60%, "70": 70%, "80": 80%, "100": 100%);
+
+
+@each $breakpoint, $value in $df-breakpoints {
+    .right-#{$breakpoint} {
+        right: $value;
+    }
+
+    .left-#{$breakpoint} {
+        left: $value;
+    }
+
+    .w-#{$breakpoint} {
+        min-width: $value;
+        max-width: $value;
+    }
+}
+
+.link {
+    text-decoration: none;
+}
+
+.h-inherit {
+    min-height: inherit;
+    max-height: inherit;
+}
+
+@each $color, $value in $theme-colors {
+    .text-#{$color} {
+        color: #{$value};
+    }
+}
+
+// must include for generating extra bootstrap colors
+$utilities: map-merge( $utilities-colors, ( "link-colors": $utilities-text-colors, "theme-colors": $all-colors ) );
+
+// callout mix-in requires '_callout.scss'
+@include callout-variant($all-colors);

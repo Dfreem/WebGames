@@ -1,0 +1,110 @@
+﻿@page "/snake"
+@using WebGames.Games
+@using WebGames.Games.Snake
+@inject IJSRuntime _js
+
+
+<div class="game-page-title">
+    <div class=" m-0 p-0 text-yellow-400">Snake</div>
+</div>
+<GameScreen CurrentGame="Game">
+    <div class="container">
+
+        @for (int x = 0; x < Grid.GetLength(0); x++)
+        {
+            <div class="d-flex flex-wrap row justify-content-center">
+
+                @for (int m = 0; m < Grid.GetLength(1); m++)
+                {
+                    if (Grid[x, m].SectionType == SectionType.DefaultSection)
+                    {
+                        <div class="grid-cell default">
+                            &emsp;
+                        </div>
+                    }
+                    else
+                    {
+
+                        <div class="grid-cell snake-section">
+                            &emsp;
+                        </div>
+                    }
+                }
+            </div>
+        }
+    </div>
+    @if (Manager != null && !Manager.IsRunning)
+    {
+        <button class="btn btn-success" @onclick='RunGame'>
+            Start Game
+        </button>   
+    }
+</GameScreen>
+
+
+@code {
+    public SnakeGame Game { get; set; } = default!;
+
+    public IGridSection[,] Grid { get; set; } = new IGridSection[15, 15];
+
+    public PlayerSnake Player { get; set; } = default!;
+
+    public KeyboardListener KeyWatcher { get; set; } = default!;
+
+    public GameManager Manager { get; set; } = default!;
+
+    protected override void OnInitialized()
+    {
+        Game = new();
+        Player = new();
+        Manager = new(Game);
+        Draw();
+        base.OnInitialized();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            KeyWatcher = new();
+            var module = await _js.InvokeAsync<IJSObjectReference>("import", "./app.js");
+            await module.InvokeVoidAsync("initKeyboardListener", DotNetObjectReference.Create(KeyWatcher));
+            KeyWatcher.OnLeft += (sender, args) => Player.Left();
+            KeyWatcher.OnRight += (sender, args) => Player.Right();
+            Manager.Update += Update;
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public void Update(Object? sender, EventArgs args)
+    {
+        Player.Update();
+        
+        Draw();
+        StateHasChanged();
+
+    }
+
+    public void Draw()
+    {
+        for (int i = 0; i < 15; i++)
+        {
+
+            for (int j = 0; j < 15; j++)
+            {
+                Grid[i, j] = new GridSection(i, j);
+            }
+        }
+        foreach (var section in Player.Sections)
+        {
+            Grid[section.Y, section.X] = new SnakeSection(section.X, section.Y);
+        }
+
+    }
+
+    public async Task RunGame()
+    {
+        await Manager.Run();
+        StateHasChanged();
+    }
+}

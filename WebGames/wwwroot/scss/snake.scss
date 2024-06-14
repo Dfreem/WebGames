@@ -1,0 +1,38 @@
+﻿@import 'variables';
+
+.content {
+    background-color: #{$body-bg};
+}
+
+.game-page-title {
+    margin-inline: auto;
+    margin-block: 1em;
+    font-family: "NovaMono";
+    font-size: 30pt;
+    justify-content: center;
+    background-color: #{$green-300};
+    display: flex;
+    max-width: 50%;
+    margin-inline: auto;
+    border-radius: 2em;
+}
+
+.grid-cell {
+    min-width: 35px;
+    max-width: 35px;
+    min-height: 35px;
+    max-height: 35px;
+    background-color: #{$grid-cell-bg};
+}
+
+.snake-section {
+    background-color: #{$snake-section-bg};
+    min-width: 35px;
+    max-width: 35px;
+    min-height: 35px;
+    max-height: 35px;
+}
+
+.screen-grid {
+    min-width: 100%;
+}
