@@ -9,6 +9,12 @@ export function initKeyboardListener(keyboardListener) {
         if (e.key === 'ArrowRight') {
             keyboardListener.invokeMethodAsync('Right');
         }
+        if (e.key === 'ArrowDown') {
+            keyboardListener.invokeMethodAsync('Down');
+        }
+        if (e.key === 'ArrowUp') {
+            keyboardListener.invokeMethodAsync('Up');
+        }
     })
 
 }

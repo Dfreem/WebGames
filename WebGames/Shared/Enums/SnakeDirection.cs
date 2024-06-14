@@ -15,11 +15,11 @@ public static class SnakeDirectionExtensions
         switch (direction)
         {
             case SnakeDirection.North:
-                return new(0, 1);
+                return new(0, -1);
             case SnakeDirection.East:
                 return new(1, 0);
             case SnakeDirection.South:
-                return new(0, -1);
+                return new(0, 1);
             case SnakeDirection.West:
                 return new(-1, 0);
             default:

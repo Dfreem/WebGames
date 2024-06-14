@@ -21,7 +21,7 @@ public class KeyboardListener
     {
         OnRight?.Invoke(this, new());
     }
-    /*[JSInvokable]
+    [JSInvokable]
     public void Up()
     {
         OnUp?.Invoke(this, new());
@@ -31,7 +31,7 @@ public class KeyboardListener
     {
         OnDown?.Invoke(this, new());
     }
-*/
+
 
 
 }

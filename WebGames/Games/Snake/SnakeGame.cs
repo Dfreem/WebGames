@@ -1,10 +1,10 @@
 ﻿namespace WebGames.Games.Snake;
 
-public class SnakeGame() : IGame
+public class SnakeGame(int tick = 1000/4) : IGame
 {
     public string GameTitle { get; set; } = "Snake";
     public GameResulution ScreenSize { get; set; } = new();
-    public int Tick { get; set; }
+    public int Tick { get; set; } = tick;
 
     public void SetScreenSize(int width = 600, int height = 600)
     {
