@@ -18,19 +18,26 @@
 }
 
 .grid-cell {
-    min-width: 35px;
-    max-width: 35px;
-    min-height: 35px;
-    max-height: 35px;
+    min-width: #{$grid-section-size};
+    max-width: #{$grid-section-size};
+    max-height: #{$grid-section-size};
+    min-height: #{$grid-section-size};
+}
+
+.default-section {
+    @extend .grid-cell;
     background-color: #{$grid-cell-bg};
 }
 
 .snake-section {
+    @extend .grid-cell;
     background-color: #{$snake-section-bg};
-    min-width: 35px;
-    max-width: 35px;
-    min-height: 35px;
-    max-height: 35px;
+}
+
+.food-section {
+    @extend .grid-cell;
+    z-index: 10;
+    background-color: #{$food-bg}
 }
 
 .screen-grid {

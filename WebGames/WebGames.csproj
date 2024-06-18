@@ -9,10 +9,13 @@
 
   <ItemGroup>
     <Content Remove="compilerconfig.json" />
+    <Content Remove="Shared\Components\DebugWindow.razor" />
   </ItemGroup>
 
   <ItemGroup>
     <None Include="compilerconfig.json" />
+    <None Include="Pages\Home.razor" />
+    <None Include="Shared\Components\Toast\Toast.razor" />
   </ItemGroup>
 
   <ItemGroup>

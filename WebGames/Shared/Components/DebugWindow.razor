@@ -1,0 +1,53 @@
+﻿@using WebGames.Games.Snake
+<code style="min-width: 20%; max-width: 30%;position: absolute; display:flex; flex-wrap: wrap;">
+    <pre>
+
+    Snake Head {
+        Food: @Debug?.FoodLocation
+        Snake: @Debug?.PlayerLocation
+        Snek Dead: @Game.Player.IsDead
+        Direction: @Game.Player.Direction
+        Grid: <span class="d-flex flex-wrap"> @Debug?.Grid </span>
+    </pre>
+
+</code>
+
+
+@code {
+
+    public void BuildDebug(IGame Game)
+    {
+        if (Game.GameType == GameType.Snake)
+        {
+            var snakeGame = (SnakeGame)Game;
+            var player = (PlayerSnake)snakeGame.Player;
+            string location = $"({player.Head.X}, {player.Head.Y})";
+            var directionVector = Game.Player.Direction.ToDirectionVec();
+            string directionVectorString = $"(x:{directionVector.X}, y:{directionVector.Y})";
+            int score = player.Score;
+            string foodLocation = $"({snakeGame.Food?.X}, {snakeGame.Food?.Y})";
+            string grid = string.Empty;
+            for (int y = 0; y < snakeGame.Grid.GetLength(0); y++)
+            {
+                grid += "row: ";
+                for (int x = 0; x < snakeGame.Grid.GetLength(1); x++)
+                {
+                    var item = snakeGame.Grid[x, y];
+                    if (snakeGame.Food != null && snakeGame.Food.X == x && snakeGame.Food.Y == y)
+                    {
+                        grid += " F ";
+                    }
+                    else
+                    {
+                        grid += item.SectionType == SectionType.SnakeSection ? " S " : " _ ";
+                    }
+                }
+                grid += "\n";
+            }
+
+            Debug = new(location, Enum.GetName<SnakeDirection>(Game.Player!.Direction) ?? "", directionVector.ToString(), foodLocation, score, grid);
+        }
+    }
+
+
+}

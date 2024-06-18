@@ -11,5 +11,6 @@ public interface IGridSection
 public enum SectionType
 {
     DefaultSection,
-    SnakeSection
+    SnakeSection,
+    Food
 }

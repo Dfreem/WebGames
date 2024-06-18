@@ -1,0 +1,127 @@
+﻿@use "sass:color";
+@import "../lib/bootstrap/scss/functions";
+@import "_variables.scss";
+
+:root {
+  --toast-width: 25em;
+  --toast-transition: all 1s ease-in-out;
+}
+
+.toastr {
+  max-width: var(--toast-width);
+  min-width: var(--toast-width);
+  margin: 2em;
+  position: absolute;
+  z-index: 500;
+  font-family: "poppins";
+  border-radius: 5px !important;
+  transition: var(--toast-transition);
+  left: calc(50% - (var(--toast-width) / 2));
+  box-shadow: rgba(0,0,0,0.2) 10px 10px 4px -1px;
+
+  & .bottom {
+    bottom: 1em !important;
+  }
+
+  & .top {
+    top: 1em !important;
+  }
+
+  & .right {
+    left: unset !important;
+    right: 1em !important;
+  }
+
+  & .left {
+    right: unset !important;
+    left: 1em !important;
+  }
+
+
+  &-header {
+    padding: 0;
+    max-height: 1.5rem;
+    display: flex;
+    align-items: center;
+    background: inherit;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+
+    &-header > a.btn {
+      margin: 0;
+    }
+
+  &-body {
+    background-color: inherit;
+    filter: saturate(.4) brightness(1.2);
+    padding-inline: 1rem;
+    padding-block: .5rem;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+}
+// .toast-* message instance properties
+.toast {
+
+  &-error .close i {
+    color: white !important;
+    padding-block: 0;
+    filter: contrast(2);
+  }
+
+
+  &-error .close:hover i {
+    filter: hue-rotate(15deg) contrast(1.5);
+  }
+
+  &-success .close i {
+    filter: contrast(2);
+    font-weight: 800;
+  }
+
+  &-success .close:hover i {
+    filter: hue-rotate(20deg) contrast(1.5);
+    color: white !important;
+  }
+
+  &-warning {
+    /* text-shadow: 0 0 3px black; */
+    text-size-adjust: 25%;
+    background-color: #{$warning} !important;
+  }
+
+  &-success {
+    color: !important;
+    filter: contrast(1.6);
+    background-color: #{$success-bg-subtle} !important;
+    outline: 1px solid #{$success} !important;
+    outline-color: #{$success};
+    transition: all 1s ease-in-out;
+  }
+
+  &-error {
+    color: white !important;
+    background-color: #{$red-400} !important;
+    outline: 1px solid #{$danger} !important;
+  }
+
+  &-info {
+    color: color-contrast($info) !important;
+    background-color: color.adjust($info, $lightness: 10%)!important;
+    outline: 1px solid #{$info-bg-subtle-dark}!important;
+  }
+}
+
+.hide-toast {
+  display: none !important;
+  background-color: transparent !important;
+  color: transparent !important;
+  transform: translateY(50%);
+  transition: var(--toast-transition);
+
+  & .toastr-header {
+    display: none !important;
+  }
+}

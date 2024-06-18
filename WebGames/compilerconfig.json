@@ -10,5 +10,9 @@
   {
     "outputFile": "wwwroot/css/snake.css",
     "inputFile": "wwwroot/scss/snake.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/toast.css",
+    "inputFile": "wwwroot/scss/toast.scss"
   }
 ]

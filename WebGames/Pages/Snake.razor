@@ -2,11 +2,13 @@
 @using WebGames.Games
 @using WebGames.Games.Snake
 @inject IJSRuntime _js
+@inject IToastService _toast
 
 
 <div class="game-page-title">
     <div class=" m-0 p-0 text-yellow-400">Snake</div>
 </div>
+<<<<<<< Updated upstream
 
 <div class="container-fluid">
     <div class="screen-grid mx-auto">
@@ -31,6 +33,36 @@
                             <div class="grid-cell snake-section">
                                 &emsp;
                             </div>
+=======
+<div class="container-fluid">
+    <div class="screen-grid mx-auto">
+
+        <div class="container">
+
+            @for (int x = 0; x < Game.Grid.GetLength(0); x++)
+            {
+                <div class="d-flex flex-wrap row justify-content-center">
+
+                    @for (int m = 0; m < Game.Grid.GetLength(1); m++)
+                    {
+                        switch (Game.Grid[m, x].SectionType)
+                        {
+                            case (SectionType.DefaultSection):
+                                <div class="default-section">
+                                    &emsp;
+                                </div>
+                                break;
+                            case (SectionType.Food):
+                                <div class="food-section">
+                                    &emsp;
+                                </div>
+                                break;
+                            default:
+                                <div class="snake-section">
+                                    &emsp;
+                                </div>
+                                break;
+>>>>>>> Stashed changes
                         }
                     }
                 </div>
@@ -39,7 +71,11 @@
         @if (Manager != null && !Manager.IsRunning)
         {
 
+<<<<<<< Updated upstream
             <button class="btn btn-success" @onclick='RunGame'>
+=======
+            <button class="btn btn-success position-absolute top-0 left-50 mt-5" @onclick='RunGame'>
+>>>>>>> Stashed changes
                 Start Game
             </button>
         }
@@ -50,26 +86,32 @@
 @code {
     public SnakeGame Game { get; set; } = default!;
 
-    public IGridSection[,] Grid { get; set; } = new IGridSection[15, 15];
-
-    public PlayerSnake Player { get; set; } = default!;
-
     public KeyboardListener KeyWatcher { get; set; } = default!;
 
     public GameManager Manager { get; set; } = default!;
 
-    protected override void OnInitialized()
+    public record DebugDTO(string PlayerLocation, string Direction, string DirectionVector, string FoodLocation, int Score, string Grid);
+
+    public DebugDTO? Debug { get; set; }
+
+    protected override async Task OnInitializedAsync()
     {
+<<<<<<< Updated upstream
         Game = new(1000 / 4);
         BuildGrid();
         Player = new(Grid);
         Manager = new(Game);
         Draw();
         base.OnInitialized();
+=======
+        await Initialize();
+        await base.OnInitializedAsync();
+>>>>>>> Stashed changes
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    public void OnGameOver(Object? sender, EventArgs args)
     {
+<<<<<<< Updated upstream
         if (firstRender)
         {
             KeyWatcher = new();
@@ -82,18 +124,30 @@
             Manager.Update += Update;
         }
         await base.OnAfterRenderAsync(firstRender);
+=======
+        string message = $"You died.\nScore: {Game.Player.Score}";
+        _toast.Info(message);
+        Manager.Quit();
+        InvokeAsync(Initialize);
+        StateHasChanged();
+>>>>>>> Stashed changes
     }
 
     public void Update(Object? sender, EventArgs args)
     {
+<<<<<<< Updated upstream
         Player.Update();
+=======
+        Game.Update();
+>>>>>>> Stashed changes
         Draw();
         StateHasChanged();
 
     }
 
-    public void Draw()
+    public void OnEscape(Object? sender, EventArgs args)
     {
+<<<<<<< Updated upstream
         BuildGrid();
         foreach (var section in Player.Sections)
         {
@@ -113,11 +167,39 @@
             }
         }
 
+=======
+        _toast.Info("Escape pressed");
+        Manager.IsRunning = false;
+        Manager.Quit();
+        StateHasChanged();
+>>>>>>> Stashed changes
     }
 
     public async Task RunGame()
     {
         await Manager.Run();
         StateHasChanged();
+    }
+
+    public void Draw()
+    {
+        Game.BuildGrid();
+    }
+
+    public async Task Initialize()
+    {
+        Game = new(1000 / 4);
+        Manager = new(Game);
+        KeyWatcher = new();
+        KeyWatcher.OnLeft += (sender, args) => Game.Player.Left();
+        KeyWatcher.OnRight += (sender, args) => Game.Player.Right();
+        KeyWatcher.OnUp += (sender, args) => Game.Player.Up();
+        KeyWatcher.OnDown += (sender, args) => Game.Player.Down();
+        KeyWatcher.OnEsc += OnEscape;
+        var module = await _js.InvokeAsync<IJSObjectReference>("import", "./app.js");
+        await module.InvokeVoidAsync("initKeyboardListener", DotNetObjectReference.Create(KeyWatcher));
+        Manager.Update += Update;
+        Game.Player.Snake_Dead += OnGameOver;
+
     }
 }

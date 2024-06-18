@@ -10,7 +10,7 @@ public enum SnakeDirection
 
 public static class SnakeDirectionExtensions
 {
-    public static Coords ToCoords(this SnakeDirection direction)
+    public static DirectionVector ToDirectionVec(this SnakeDirection direction)
     {
         switch (direction)
         {
@@ -23,9 +23,9 @@ public static class SnakeDirectionExtensions
             case SnakeDirection.West:
                 return new(-1, 0);
             default:
-                return new(0, 0);
+                return new( 0,0);
         }
     }
 }
 
-public record Coords(int X, int Y);
+public record DirectionVector(int X, int Y);

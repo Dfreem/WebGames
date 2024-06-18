@@ -1,6 +1,6 @@
 {
-  "name": "Snake",
-  "short_name": "Snake",
+  "name": "WebGames",
+  "short_name": "WebGames",
   "id": "./",
   "start_url": "./",
   "display": "standalone",
