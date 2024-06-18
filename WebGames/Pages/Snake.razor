@@ -2,109 +2,121 @@
 @using WebGames.Games
 @using WebGames.Games.Snake
 @inject IJSRuntime _js
+@inject IToastService _toast
 
 
 <div class="game-page-title">
     <div class=" m-0 p-0 text-yellow-400">Snake</div>
 </div>
-<GameScreen CurrentGame="Game">
-    <div class="container">
+<div class="container-fluid">
+    <div class="screen-grid mx-auto">
 
-        @for (int x = 0; x < Grid.GetLength(0); x++)
+        <div class="container">
+
+            @for (int x = 0; x < Game.Grid.GetLength(0); x++)
+            {
+                <div class="d-flex flex-wrap row justify-content-center">
+
+                    @for (int m = 0; m < Game.Grid.GetLength(1); m++)
+                    {
+                        switch (Game.Grid[m, x].SectionType)
+                        {
+                            case (SectionType.DefaultSection):
+                                <div class="default-section">
+                                    &emsp;
+                                </div>
+                                break;
+                            case (SectionType.Food):
+                                <div class="food-section">
+                                    &emsp;
+                                </div>
+                                break;
+                            default:
+                                <div class="snake-section">
+                                    &emsp;
+                                </div>
+                                break;
+                        }
+                    }
+                </div>
+            }
+        </div>
+        @if (Manager != null && !Manager.IsRunning)
         {
-            <div class="d-flex flex-wrap row justify-content-center">
-
-                @for (int m = 0; m < Grid.GetLength(1); m++)
-                {
-                    if (Grid[x, m].SectionType == SectionType.DefaultSection)
-                    {
-                        <div class="grid-cell default">
-                            &emsp;
-                        </div>
-                    }
-                    else
-                    {
-
-                        <div class="grid-cell snake-section">
-                            &emsp;
-                        </div>
-                    }
-                }
-            </div>
+            <button class="btn btn-success position-absolute top-0 left-50 mt-5" @onclick='RunGame'>
+                Start Game
+            </button>
         }
     </div>
-    @if (Manager != null && !Manager.IsRunning)
-    {
-        <button class="btn btn-success" @onclick='RunGame'>
-            Start Game
-        </button>   
-    }
-</GameScreen>
+</div>
 
 
 @code {
     public SnakeGame Game { get; set; } = default!;
 
-    public IGridSection[,] Grid { get; set; } = new IGridSection[15, 15];
-
-    public PlayerSnake Player { get; set; } = default!;
-
     public KeyboardListener KeyWatcher { get; set; } = default!;
 
     public GameManager Manager { get; set; } = default!;
 
-    protected override void OnInitialized()
-    {
-        Game = new();
-        Player = new();
-        Manager = new(Game);
-        Draw();
-        base.OnInitialized();
+    public record DebugDTO(string PlayerLocation, string Direction, string DirectionVector, string FoodLocation, int Score, string Grid);
+
+    public DebugDTO? Debug { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {        await Initialize();
+        await base.OnInitializedAsync();
     }
 
-    protected override async Task OnAfterRenderAsync(bool firstRender)
+    public void OnGameOver(Object? sender, EventArgs args)
     {
-        if (firstRender)
-        {
-            KeyWatcher = new();
-            var module = await _js.InvokeAsync<IJSObjectReference>("import", "./app.js");
-            await module.InvokeVoidAsync("initKeyboardListener", DotNetObjectReference.Create(KeyWatcher));
-            KeyWatcher.OnLeft += (sender, args) => Player.Left();
-            KeyWatcher.OnRight += (sender, args) => Player.Right();
-            Manager.Update += Update;
-        }
-        await base.OnAfterRenderAsync(firstRender);
+        string message = $"You died.\nScore: {Game.Player.Score}";
+        _toast.Info(message);
+        Manager.Quit();
+        InvokeAsync(Initialize);
+        StateHasChanged();
     }
 
     public void Update(Object? sender, EventArgs args)
     {
-        Player.Update();
-        
+        Game.Update();
         Draw();
         StateHasChanged();
 
     }
 
-    public void Draw()
+    public void OnEscape(Object? sender, EventArgs args)
     {
-        for (int i = 0; i < 15; i++)
-        {
-
-            for (int j = 0; j < 15; j++)
-            {
-                Grid[i, j] = new GridSection(i, j);
-            }
-        }
-        foreach (var section in Player.Sections)
-        {
-            Grid[section.Y, section.X] = new SnakeSection(section.X, section.Y);
-        }
-
+       _toast.Info("Escape pressed");
+        Manager.IsRunning = false;
+        Manager.Quit();
+        StateHasChanged();
     }
 
     public async Task RunGame()
     {
         await Manager.Run();
         StateHasChanged();
+    }
+
+    public void Draw()
+    {
+        Game.BuildGrid();
+    }
+
+    public async Task Initialize()
+    {
+        Game = new(1000 / 4);
+        Manager = new(Game);
+        KeyWatcher = new();
+        KeyWatcher.OnLeft += (sender, args) => Game.Player.Left();
+        KeyWatcher.OnRight += (sender, args) => Game.Player.Right();
+        KeyWatcher.OnUp += (sender, args) => Game.Player.Up();
+        KeyWatcher.OnDown += (sender, args) => Game.Player.Down();
+        KeyWatcher.OnEsc += OnEscape;
+        var module = await _js.InvokeAsync<IJSObjectReference>("import", "./app.js");
+        await module.InvokeVoidAsync("initKeyboardListener", DotNetObjectReference.Create(KeyWatcher));
+        Manager.Update += Update;
+        Game.Player.Snake_Dead += OnGameOver;
+
     }
 }
