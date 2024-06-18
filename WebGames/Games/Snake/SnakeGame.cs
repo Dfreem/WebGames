@@ -1,14 +1,10 @@
 ﻿using System.Reflection.Metadata.Ecma335;
 
-<<<<<<< Updated upstream
-public class SnakeGame(int tick = 1000/4) : IGame
-=======
 using WebGames.Shared.Enums;
 
 namespace WebGames.Games.Snake;
 
 public class SnakeGame : IGame
->>>>>>> Stashed changes
 {
     public SnakeGame(int tick = 1000 / 4)
     {
@@ -34,9 +30,6 @@ public class SnakeGame : IGame
     public IGridSection[,] Grid { get; set; } = default!;
 
     public GameResulution ScreenSize { get; set; } = new();
-<<<<<<< Updated upstream
-    public int Tick { get; set; } = tick;
-=======
     public FoodGridSection? Food { get; set; }
 
     public int Tick { get; set; }
@@ -71,7 +64,6 @@ public class SnakeGame : IGame
             Player.Kill();
         }    
     }
->>>>>>> Stashed changes
 
     public void SetScreenSize(int width = 600, int height = 600)
     {

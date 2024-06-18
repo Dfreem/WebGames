@@ -8,32 +8,6 @@
 <div class="game-page-title">
     <div class=" m-0 p-0 text-yellow-400">Snake</div>
 </div>
-<<<<<<< Updated upstream
-
-<div class="container-fluid">
-    <div class="screen-grid mx-auto">
-
-        <div class="container">
-
-            @for (int x = 0; x < Grid.GetLength(0); x++)
-            {
-                <div class="d-flex flex-wrap row justify-content-center">
-
-                    @for (int m = 0; m < Grid.GetLength(1); m++)
-                    {
-                        if (Grid[x, m].SectionType == SectionType.DefaultSection)
-                        {
-                            <div class="grid-cell default">
-                                &emsp;
-                            </div>
-                        }
-                        else
-                        {
-
-                            <div class="grid-cell snake-section">
-                                &emsp;
-                            </div>
-=======
 <div class="container-fluid">
     <div class="screen-grid mx-auto">
 
@@ -62,7 +36,6 @@
                                     &emsp;
                                 </div>
                                 break;
->>>>>>> Stashed changes
                         }
                     }
                 </div>
@@ -70,12 +43,7 @@
         </div>
         @if (Manager != null && !Manager.IsRunning)
         {
-
-<<<<<<< Updated upstream
-            <button class="btn btn-success" @onclick='RunGame'>
-=======
             <button class="btn btn-success position-absolute top-0 left-50 mt-5" @onclick='RunGame'>
->>>>>>> Stashed changes
                 Start Game
             </button>
         }
@@ -95,51 +63,22 @@
     public DebugDTO? Debug { get; set; }
 
     protected override async Task OnInitializedAsync()
-    {
-<<<<<<< Updated upstream
-        Game = new(1000 / 4);
-        BuildGrid();
-        Player = new(Grid);
-        Manager = new(Game);
-        Draw();
-        base.OnInitialized();
-=======
-        await Initialize();
+    {        await Initialize();
         await base.OnInitializedAsync();
->>>>>>> Stashed changes
     }
 
     public void OnGameOver(Object? sender, EventArgs args)
     {
-<<<<<<< Updated upstream
-        if (firstRender)
-        {
-            KeyWatcher = new();
-            var module = await _js.InvokeAsync<IJSObjectReference>("import", "./app.js");
-            await module.InvokeVoidAsync("initKeyboardListener", DotNetObjectReference.Create(KeyWatcher));
-            KeyWatcher.OnLeft += (sender, args) => Player.Left();
-            KeyWatcher.OnRight += (sender, args) => Player.Right();
-            KeyWatcher.OnUp += (sender, args) => Player.Up();
-            KeyWatcher.OnDown += (sender, args) => Player.Down();
-            Manager.Update += Update;
-        }
-        await base.OnAfterRenderAsync(firstRender);
-=======
         string message = $"You died.\nScore: {Game.Player.Score}";
         _toast.Info(message);
         Manager.Quit();
         InvokeAsync(Initialize);
         StateHasChanged();
->>>>>>> Stashed changes
     }
 
     public void Update(Object? sender, EventArgs args)
     {
-<<<<<<< Updated upstream
-        Player.Update();
-=======
         Game.Update();
->>>>>>> Stashed changes
         Draw();
         StateHasChanged();
 
@@ -147,32 +86,10 @@
 
     public void OnEscape(Object? sender, EventArgs args)
     {
-<<<<<<< Updated upstream
-        BuildGrid();
-        foreach (var section in Player.Sections)
-        {
-            Grid[section.Y, section.X] = new SnakeSection(section.X, section.Y);
-        }
-
-    }
-
-    public void BuildGrid()
-    {
-        for (int i = 0; i < 15; i++)
-        {
-
-            for (int j = 0; j < 15; j++)
-            {
-                Grid[i, j] = new GridSection(i, j);
-            }
-        }
-
-=======
-        _toast.Info("Escape pressed");
+       _toast.Info("Escape pressed");
         Manager.IsRunning = false;
         Manager.Quit();
         StateHasChanged();
->>>>>>> Stashed changes
     }
 
     public async Task RunGame()

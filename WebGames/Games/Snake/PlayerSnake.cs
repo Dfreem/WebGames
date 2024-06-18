@@ -7,11 +7,7 @@ using WebGames.Shared.Enums;
 namespace WebGames.Games.Snake;
 
 
-<<<<<<< Updated upstream
-public class PlayerSnake(IGridSection[,] Grid)
-=======
 public class PlayerSnake : IPlayer
->>>>>>> Stashed changes
 {
     public event EventHandler? Snake_Collide;
     public event EventHandler? Snake_Dead;
@@ -50,11 +46,7 @@ public class PlayerSnake : IPlayer
     public bool IsDead { get; set; } = false;
 
     public void Left()
-    {
-<<<<<<< Updated upstream
-        Direction = SnakeDirection.West;
-=======
-        if (Direction != SnakeDirection.East && _directionLock != SnakeDirection.East) Direction = SnakeDirection.West;
+    {        if (Direction != SnakeDirection.East && _directionLock != SnakeDirection.East) Direction = SnakeDirection.West;
     }
 
     public void Right()
@@ -70,81 +62,10 @@ public class PlayerSnake : IPlayer
     public void Down()
     {
         if (Direction != SnakeDirection.North && _directionLock != SnakeDirection.North) Direction = SnakeDirection.South;
->>>>>>> Stashed changes
     }
  
-    public void Right()
-    {
-        Direction = SnakeDirection.East;
-    }
- 
-    public void Up()
-    {
-        Direction = SnakeDirection.North;
-    }
- 
-    public void Down()
-    {
-        Direction = SnakeDirection.South;
-    }
-
-    // these are wrong for this game. I remembered the controls incorrectly because I'm old and this game is old so fuck you.
-    // but I thought about this for a few minutes and now I have a sunk cost mindset that won't let me delete them.
-    //public void Right()
-    //{
-    //    switch (Direction)
-    //    {
-
-    //        case SnakeDirection.North:
-    //            Direction = SnakeDirection.West;
-    //            break;
-    //        case SnakeDirection.East:
-    //            Direction = SnakeDirection.North;
-    //            break;
-    //        case SnakeDirection.South:
-    //            Direction = SnakeDirection.East;
-    //            break;
-    //        case SnakeDirection.West:
-    //            Direction = SnakeDirection.South;
-    //            break;
-    //        default:
-    //            break;
-    //    }
-    //}
-
-    //public void Left()
-    //{
-    //    switch (Direction)
-    //    {
-    //        case SnakeDirection.North:
-    //            Direction = SnakeDirection.East;
-    //            break;
-    //        case SnakeDirection.East:
-    //            Direction = SnakeDirection.South;
-    //            break;
-    //        case SnakeDirection.South:
-    //            Direction = SnakeDirection.West;
-    //            break;
-    //        case SnakeDirection.West:
-    //            Direction = SnakeDirection.North;
-    //            break;
-    //        default:
-    //            break;
-    //    }
-    //}
-
     public void Forward()
     {
-<<<<<<< Updated upstream
-        if (Sections.Length < 2 || IsDead) return;
-        var direction = Direction.ToCoords();
-        SnakeSection tail = Sections[^1];
-        SnakeSection head = Sections[0];
-        Sections = Sections[..^1];
-        tail.X = head.X + direction.X;
-        tail.Y = head.Y + direction.Y;
-        Sections = [tail, .. Sections];
-=======
         var directionVector = Direction.ToDirectionVec();
         SnakeSection tail = _sections[^1];
         _sections = _sections[..^1];
@@ -157,27 +78,10 @@ public class PlayerSnake : IPlayer
     {
         IsDead = true;
         Snake_Dead?.Invoke(this, EventArgs.Empty);
->>>>>>> Stashed changes
     }
 
     public bool CheckForWall()
     {
-<<<<<<< Updated upstream
-        Forward();
-        Wrap();
-    }
-
-    public bool OutOfRangeY()
-    {
-        int wallIndex = Sections.GetLength(0);
-        return Sections.Any(s => Grid[0, 0].Y > s.Y || s.Y > Grid[wallIndex, wallIndex].Y);
-    }
-
-    public bool OutOfRangeX()
-    {
-        var wallIndex = Grid.GetLength(0) - 1;
-        return Sections.Any(s => Grid[0, 0].X > s.X || s.X > Grid[wallIndex, wallIndex].X);
-=======
         bool hitTop = 0 > Head.Y && Direction == SnakeDirection.North;
         bool hitBottom = Head.Y > _gridHeight && Direction == SnakeDirection.South;
         bool hitLeft = 0 > Head.X && Direction == SnakeDirection.West;
@@ -189,21 +93,10 @@ public class PlayerSnake : IPlayer
     {
         var body = _sections[1..];
         return body.Any(s => s.X == Head.X && s.Y == Head.Y);
->>>>>>> Stashed changes
     }
 
     public void Wrap()
     {
-<<<<<<< Updated upstream
-        if (OutOfRangeX())
-        {
-            Sections[0].X %= 15;
-        }
-        if (OutOfRangeY())
-        {
-            Sections[0].Y %= 15;
-        }
-=======
         switch (Direction)
         {
             case SnakeDirection.West:
@@ -227,6 +120,5 @@ public class PlayerSnake : IPlayer
     {
         var directionVector = Direction.ToDirectionVec();
         _sections = [new(Head.X + directionVector.X, Head.Y + directionVector.Y), .. _sections];
->>>>>>> Stashed changes
     }
 }
