@@ -1,2 +1,2 @@
 # WebGames
-Yet another game engine built using Microsoft's blazor web framework
+Games to lay on the Web!
