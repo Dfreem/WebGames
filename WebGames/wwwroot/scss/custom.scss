@@ -15,8 +15,7 @@
 @import "../lib/bootstrap/scss/helpers/_colored-links.scss";
 @import '../lib/bootstrap/scss/helpers/_color-bg.scss';
 @import "../lib/bootstrap/scss/_utilities.scss";
-@import "_callout.scss";
-@import "game";
+@import "mixins/callout.scss";
 
 $theme-colors: ("primary": $primary, "secondary": $secondary, "tertiary": $tertiary, "info": $info, "danger": $danger);
 $theme-colors: map-merge-multiple($blues, $reds, $oranges, $yellows, $greens, $purples, $teals, $grays, $theme-colors);

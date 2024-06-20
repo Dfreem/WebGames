@@ -1,0 +1,12 @@
+﻿@import '../_variables.scss';
+
+.menu-modal {
+  & .modal-content {
+    background-color: #{$menu-modal-bg};
+    color: #{$menu-modal-color};
+  }
+  & modal-header, modal-footer {
+    --modal-header-body-color:  #{$menu-divider-color}!important;
+    border-color: #{$menu-divider-color}!important;
+  }
+}

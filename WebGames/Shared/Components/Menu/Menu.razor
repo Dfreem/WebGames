@@ -1,0 +1,57 @@
+﻿@inject IJSRuntime _js
+
+<div class='modal menu-modal' id="@MenuId">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">
+                    @Title
+                </h3>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                @MenuText
+            </div>
+            <div class="modal-footer">
+                <div class="d-flex verticle-space-5x">
+                    @ChildContent
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@code {
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string MenuId { get; set; } = "menu-modal";
+
+    [Parameter]
+    public string Title { get; set; } = default!;
+
+    [Parameter]
+    public string MenuText { get; set; } = default!;
+
+    IJSObjectReference? _module;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _module = await _js.InvokeAsync<IJSObjectReference>("import", "/Shared/Components/Menu/Menu.razor.js");
+            await _module.InvokeVoidAsync("showModal", MenuId);
+        }
+        await base.OnAfterRenderAsync(firstRender);
+    }
+
+    public async Task Toggle()
+    {
+        await _module!.InvokeVoidAsync("toggleModal", MenuId);
+    }
+}
