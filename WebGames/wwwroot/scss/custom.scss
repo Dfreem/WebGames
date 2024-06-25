@@ -6,6 +6,7 @@
 */
 @import '../lib/bootstrap/scss/_functions.scss';
 @import '_variables.scss';
+@import '_utilities.scss';
 
 
 @import "../lib/bootstrap/scss/_maps.scss";
@@ -49,6 +50,13 @@ $df-breakpoints: ("10": 10%,"11": 11%,"12": 12%,"13":13%, "14":14%, "15":15%, "1
 @each $color, $value in $theme-colors {
   .text-#{$color} {
     color: #{$value};
+  }
+}
+
+@for $i from 1 through 10 {
+  .verticle-space-#{$i}x {
+    min-height: calc($i * 5em);
+    max-height: calc($i * 5em);
   }
 }
 

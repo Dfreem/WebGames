@@ -1,23 +1,24 @@
-﻿@inject IJSRuntime _js
+﻿@inject MenuJSInteropt _js
 
-<div class='modal menu-modal' id="@MenuId">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h3 class="modal-title">
-                    @Title
-                </h3>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body">
-                @MenuText
-            </div>
-            <div class="modal-footer">
-                <div class="d-flex verticle-space-5x">
+<div class='modal menu-modal modal-static' id="@MenuId">
+    <div class="modal-backdrop">
+
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content shadow-3d">
+                <div class="modal-header d-flex">
+                    <h3 class="modal-title mx-auto">
+                        @Title
+                    </h3>
+                </div>
+                <div class="modal-body d-flex p-4 mx-4">
+                    <p>
+                        @MenuText
+                    </p>
+                </div>
+                <div class="d-flex justify-content-evenly modal-footer">
                     @ChildContent
 
                 </div>
-
             </div>
         </div>
     </div>
@@ -38,20 +39,8 @@
     [Parameter]
     public string MenuText { get; set; } = default!;
 
-    IJSObjectReference? _module;
-
-    protected override async Task OnAfterRenderAsync(bool firstRender)
-    {
-        if (firstRender)
-        {
-            _module = await _js.InvokeAsync<IJSObjectReference>("import", "/Shared/Components/Menu/Menu.razor.js");
-            await _module.InvokeVoidAsync("showModal", MenuId);
-        }
-        await base.OnAfterRenderAsync(firstRender);
-    }
-
     public async Task Toggle()
     {
-        await _module!.InvokeVoidAsync("toggleModal", MenuId);
+        await _js.ToggleModalAsync(MenuId);
     }
 }

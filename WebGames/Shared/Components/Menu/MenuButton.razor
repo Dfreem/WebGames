@@ -1,0 +1,68 @@
+﻿@using System.Drawing
+@using WebGames.Extensions
+
+<button style="background-color: @(_colorHex)" class="btn @CssClass col" @onmouseenter='MouseEnter' @onmouseout='MouseOut' @onclick='(() => OnClick.InvokeAsync())' data-bs-dismiss="modal">
+    @ChildContent
+</button>
+
+@code {
+    [Parameter]
+    public EventCallback<string> OnClick { get; set; }
+
+    /// <summary>
+    /// This value is used as the parameter for the OnClick callback.
+    /// If no value is given, a new stringified Guid is used. It is suggested that the developer give this value a unique string name if possible.
+    /// </summary>
+    [Parameter]
+    public string? Key { get; set; }
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    [Parameter]
+    public string CssClass { get; set; } = string.Empty;
+
+    [Parameter]
+    public Color BgColor { get; set; }
+
+    string _colorHex = string.Empty;
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        if (firstRender)
+        {
+            Key ??= Guid.NewGuid().ToString();
+            SetBg(BgColor.R, BgColor.G, BgColor.B);
+        }
+        base.OnAfterRender(firstRender);
+    }
+
+    void MouseEnter(MouseEventArgs args)
+    {
+        CssClass = CssClass.Toggle("active hover");
+        Console.WriteLine(BgColor.R);
+        // Console.WriteLine(BgColor.G);
+        // Console.WriteLine(BgColor.B);
+        var r = (BgColor.R + 5) <= 255 ? (BgColor.R + 10) : 255;
+        var g = (BgColor.G + 5) <= 255 ? (BgColor.G + 10) : 255;
+        var b = (BgColor.B + 5) <= 255 ? (BgColor.B + 10) : 255;
+        Console.WriteLine(r);
+        // Console.WriteLine(g);
+        // Console.WriteLine(b);
+        SetBg(r, g, b);
+
+    }
+
+    void MouseOut(MouseEventArgs args)
+    {
+        CssClass = CssClass.Toggle("active hover");
+        SetBg(BgColor.R, BgColor.G, BgColor.B);
+    }
+
+    public void SetBg(int r, int g, int b)
+    {
+
+        _colorHex = $"rgba({r}, {g}, {b}, {BgColor.A})";
+    }
+
+}

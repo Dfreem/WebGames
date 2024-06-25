@@ -1,6 +1,303 @@
 ﻿/* Bootstrap variable override
     uncomment and set bootstrap colors.
 */
+.right-10 {
+  right: 10%;
+}
+
+.left-10 {
+  left: 10%;
+}
+
+.w-10 {
+  min-width: 10%;
+  max-width: 10%;
+}
+
+.right-11 {
+  right: 11%;
+}
+
+.left-11 {
+  left: 11%;
+}
+
+.w-11 {
+  min-width: 11%;
+  max-width: 11%;
+}
+
+.right-12 {
+  right: 12%;
+}
+
+.left-12 {
+  left: 12%;
+}
+
+.w-12 {
+  min-width: 12%;
+  max-width: 12%;
+}
+
+.right-13 {
+  right: 13%;
+}
+
+.left-13 {
+  left: 13%;
+}
+
+.w-13 {
+  min-width: 13%;
+  max-width: 13%;
+}
+
+.right-14 {
+  right: 14%;
+}
+
+.left-14 {
+  left: 14%;
+}
+
+.w-14 {
+  min-width: 14%;
+  max-width: 14%;
+}
+
+.right-15 {
+  right: 15%;
+}
+
+.left-15 {
+  left: 15%;
+}
+
+.w-15 {
+  min-width: 15%;
+  max-width: 15%;
+}
+
+.right-16 {
+  right: 16%;
+}
+
+.left-16 {
+  left: 16%;
+}
+
+.w-16 {
+  min-width: 16%;
+  max-width: 16%;
+}
+
+.right-17 {
+  right: 17%;
+}
+
+.left-17 {
+  left: 17%;
+}
+
+.w-17 {
+  min-width: 17%;
+  max-width: 17%;
+}
+
+.right-18 {
+  right: 18%;
+}
+
+.left-18 {
+  left: 18%;
+}
+
+.w-18 {
+  min-width: 18%;
+  max-width: 18%;
+}
+
+.right-19 {
+  right: 19%;
+}
+
+.left-19 {
+  left: 19%;
+}
+
+.w-19 {
+  min-width: 19%;
+  max-width: 19%;
+}
+
+.right-20 {
+  right: 20%;
+}
+
+.left-20 {
+  left: 20%;
+}
+
+.w-20 {
+  min-width: 20%;
+  max-width: 20%;
+}
+
+.right-30 {
+  right: 30%;
+}
+
+.left-30 {
+  left: 30%;
+}
+
+.w-30 {
+  min-width: 30%;
+  max-width: 30%;
+}
+
+.right-40 {
+  right: 40%;
+}
+
+.left-40 {
+  left: 40%;
+}
+
+.w-40 {
+  min-width: 40%;
+  max-width: 40%;
+}
+
+.right-50 {
+  right: 50%;
+}
+
+.left-50 {
+  left: 50%;
+}
+
+.w-50 {
+  min-width: 50%;
+  max-width: 50%;
+}
+
+.right-60 {
+  right: 60%;
+}
+
+.left-60 {
+  left: 60%;
+}
+
+.w-60 {
+  min-width: 60%;
+  max-width: 60%;
+}
+
+.right-70 {
+  right: 70%;
+}
+
+.left-70 {
+  left: 70%;
+}
+
+.w-70 {
+  min-width: 70%;
+  max-width: 70%;
+}
+
+.right-80 {
+  right: 80%;
+}
+
+.left-80 {
+  left: 80%;
+}
+
+.w-80 {
+  min-width: 80%;
+  max-width: 80%;
+}
+
+.right-100 {
+  right: 100%;
+}
+
+.left-100 {
+  left: 100%;
+}
+
+.w-100 {
+  min-width: 100%;
+  max-width: 100%;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.h-inherit {
+  min-height: inherit;
+  max-height: inherit;
+}
+
+.verticle-space-1x {
+  min-height: 5em;
+  max-height: 5em;
+}
+
+.verticle-space-2x {
+  min-height: 10em;
+  max-height: 10em;
+}
+
+.verticle-space-3x {
+  min-height: 15em;
+  max-height: 15em;
+}
+
+.verticle-space-4x {
+  min-height: 20em;
+  max-height: 20em;
+}
+
+.verticle-space-5x {
+  min-height: 25em;
+  max-height: 25em;
+}
+
+.verticle-space-6x {
+  min-height: 30em;
+  max-height: 30em;
+}
+
+.verticle-space-7x {
+  min-height: 35em;
+  max-height: 35em;
+}
+
+.verticle-space-8x {
+  min-height: 40em;
+  max-height: 40em;
+}
+
+.verticle-space-9x {
+  min-height: 45em;
+  max-height: 45em;
+}
+
+.verticle-space-10x {
+  min-height: 50em;
+  max-height: 50em;
+}
+
+.shadow-3d {
+  box-shadow: rgba(17, 17, 17, 0.537254902) 4px 4px 6px -1px, black inset 1px 1px 4px -1px;
+}
+
 :root,
 [data-bs-theme=light] {
   --bs-blue: #0d6efd;
@@ -1235,6 +1532,56 @@
 
 .text-danger {
   color: #dc3545;
+}
+
+.verticle-space-1x {
+  min-height: 5em;
+  max-height: 5em;
+}
+
+.verticle-space-2x {
+  min-height: 10em;
+  max-height: 10em;
+}
+
+.verticle-space-3x {
+  min-height: 15em;
+  max-height: 15em;
+}
+
+.verticle-space-4x {
+  min-height: 20em;
+  max-height: 20em;
+}
+
+.verticle-space-5x {
+  min-height: 25em;
+  max-height: 25em;
+}
+
+.verticle-space-6x {
+  min-height: 30em;
+  max-height: 30em;
+}
+
+.verticle-space-7x {
+  min-height: 35em;
+  max-height: 35em;
+}
+
+.verticle-space-8x {
+  min-height: 40em;
+  max-height: 40em;
+}
+
+.verticle-space-9x {
+  min-height: 45em;
+  max-height: 45em;
+}
+
+.verticle-space-10x {
+  min-height: 50em;
+  max-height: 50em;
 }
 
 .callout {

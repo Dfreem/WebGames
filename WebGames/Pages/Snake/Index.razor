@@ -1,8 +1,11 @@
 ﻿@page "/snake"
+@using System.Drawing
 @using WebGames.Games
 @using WebGames.Games.Snake
 @inject IJSRuntime _js
 @inject IToastService _toast
+@inject NavigationManager _nav
+@inject MenuJSInteropt _menuJs
 
 
 <div class="game-page-title">
@@ -41,10 +44,18 @@
                 </div>
             }
         </div>
+
+        <!--
+            Not using a templated component for ease of use. Any content can be displayed inside a Menu.
+            A MenuButton displays child content exactly the same as an HTML button element.
+        -->
         <Menu Title="Start" MenuId="snake-game" MenuText="@MenuMessage">
-            <button class="btn btn-success" @onclick='RunGame' data-bs-dismiss="modal">
-                Start Game
-            </button>
+            <MenuButton Key="back-button" CssClass="shadow" BgColor="Color.Orange" OnClick='(() => _nav.NavigateTo("/"))'>
+                Main Menu
+            </MenuButton>
+            <MenuButton Key="start-button" CssClass="shadow" BgColor="Color.PowderBlue" OnClick="((_) => RunGame())">
+                Start
+            </MenuButton>
         </Menu>
     </div>
 </div>
@@ -71,12 +82,13 @@
         await base.OnInitializedAsync();
     }
 
-    public void OnGameOver(Object? sender, EventArgs args)
+    public async Task OnGameOver(Object? sender, EventArgs args)
     {
         string message = $"You died.\nScore: {Game.Player.Score}";
         _toast.Info(message);
         Manager.Quit();
-        InvokeAsync(Initialize);
+        await Task.Delay(3000);
+        await Initialize();
         StateHasChanged();
     }
 
@@ -109,7 +121,7 @@
 
     public async Task Initialize()
     {
-        
+
         Game = new(1000 / 4);
         Manager = new(Game);
         KeyWatcher = new();
@@ -121,7 +133,8 @@
         var module = await _js.InvokeAsync<IJSObjectReference>("import", "./app.js");
         await module.InvokeVoidAsync("initKeyboardListener", DotNetObjectReference.Create(KeyWatcher));
         Manager.Update += Update;
-        Game.Player.Snake_Dead += OnGameOver;
+        Game.Player.Snake_Dead += (sender, args) => _ = OnGameOver(sender, args);
+        await _menuJs.ShowModalAsync("snake-game");
 
     }
 }

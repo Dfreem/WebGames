@@ -6,6 +6,7 @@ $secondary:  #CC6600;
 $tertiary:  #CC3300;
 $body-bg: #e7eef3;
 $success: #1A7547;
+$shadow: rgba(17,17,17,.537254902) 4px 4px 6px -1px, black inset 1px 1px 4px -1px;
 
 // Snake 
 $food-bg: #ff8c00;
@@ -17,6 +18,7 @@ $snake-section-bg: #12cca3;
 $menu-modal-bg: #B5B5B5;
 $menu-modal-color: #000000;
 $menu-divider-color:#676767;
+$menu-title-color: #d74709;
 
 @import "../lib/bootstrap/scss/_variables.scss";
 @import "../lib/bootstrap/scss/_variables-dark.scss";
