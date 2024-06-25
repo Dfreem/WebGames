@@ -4,15 +4,19 @@
     "inputFile": "wwwroot/scss/custom.scss"
   },
   {
-    "outputFile": "wwwroot/css/home.css",
-    "inputFile": "wwwroot/scss/home.scss"
+    "outputFile": "wwwroot/css/pages/home.css",
+    "inputFile": "wwwroot/scss/pages/home.scss"
   },
   {
-    "outputFile": "wwwroot/css/snake.css",
-    "inputFile": "wwwroot/scss/snake.scss"
+    "outputFile": "wwwroot/css/pages/snake.css",
+    "inputFile": "wwwroot/scss/pages/snake.scss"
   },
   {
-    "outputFile": "wwwroot/css/toast.css",
-    "inputFile": "wwwroot/scss/toast.scss"
+    "outputFile": "wwwroot/css/components/toast.css",
+    "inputFile": "wwwroot/scss/components/toast.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/components/menu_modal.css",
+    "inputFile": "wwwroot/scss/components/menu_modal.scss"
   }
 ]

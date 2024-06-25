@@ -1,12 +1,15 @@
 ﻿@page "/snake"
+@using System.Drawing
 @using WebGames.Games
 @using WebGames.Games.Snake
 @inject IJSRuntime _js
 @inject IToastService _toast
+@inject NavigationManager _nav
+@inject MenuJSInteropt _menuJs
 
 
 <div class="game-page-title">
-    <div class=" m-0 p-0 text-yellow-400">Snake</div>
+    <div class=" m-0 p-0 text-yellow-400">Snek</div>
 </div>
 <div class="container-fluid">
     <div class="screen-grid mx-auto">
@@ -41,12 +44,19 @@
                 </div>
             }
         </div>
-        @if (Manager != null && !Manager.IsRunning)
-        {
-            <button class="btn btn-success position-absolute top-0 left-50 mt-5" @onclick='RunGame'>
-                Start Game
-            </button>
-        }
+
+        <!--
+            Not using a templated component for ease of use. Any content can be displayed inside a Menu.
+            A MenuButton displays child content exactly the same as an HTML button element.
+        -->
+        <Menu Title="Start" MenuId="snake-game" MenuText="@MenuMessage">
+            <MenuButton Key="back-button" CssClass="shadow" BgColor="Color.Orange" OnClick='(() => _nav.NavigateTo("/"))'>
+                Main Menu
+            </MenuButton>
+            <MenuButton Key="start-button" CssClass="shadow" BgColor="Color.PowderBlue" OnClick="((_) => RunGame())">
+                Start
+            </MenuButton>
+        </Menu>
     </div>
 </div>
 
@@ -58,21 +68,27 @@
 
     public GameManager Manager { get; set; } = default!;
 
+    public string MenuMessage { get; set; } = "start snake";
+
+    public bool ShowMenu { get; set; } = true;
+
     public record DebugDTO(string PlayerLocation, string Direction, string DirectionVector, string FoodLocation, int Score, string Grid);
 
     public DebugDTO? Debug { get; set; }
 
     protected override async Task OnInitializedAsync()
-    {        await Initialize();
+    {
+        await Initialize();
         await base.OnInitializedAsync();
     }
 
-    public void OnGameOver(Object? sender, EventArgs args)
+    public async Task OnGameOver(Object? sender, EventArgs args)
     {
         string message = $"You died.\nScore: {Game.Player.Score}";
         _toast.Info(message);
         Manager.Quit();
-        InvokeAsync(Initialize);
+        await Task.Delay(3000);
+        await Initialize();
         StateHasChanged();
     }
 
@@ -86,7 +102,7 @@
 
     public void OnEscape(Object? sender, EventArgs args)
     {
-       _toast.Info("Escape pressed");
+        _toast.Info("Escape pressed");
         Manager.IsRunning = false;
         Manager.Quit();
         StateHasChanged();
@@ -105,6 +121,7 @@
 
     public async Task Initialize()
     {
+
         Game = new(1000 / 4);
         Manager = new(Game);
         KeyWatcher = new();
@@ -116,7 +133,8 @@
         var module = await _js.InvokeAsync<IJSObjectReference>("import", "./app.js");
         await module.InvokeVoidAsync("initKeyboardListener", DotNetObjectReference.Create(KeyWatcher));
         Manager.Update += Update;
-        Game.Player.Snake_Dead += OnGameOver;
+        Game.Player.Snake_Dead += (sender, args) => _ = OnGameOver(sender, args);
+        await _menuJs.ShowModalAsync("snake-game");
 
     }
 }

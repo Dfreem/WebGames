@@ -1,0 +1,7 @@
+﻿.menu-modal .modal-content {
+  background-color: #B5B5B5;
+  color: #000000;
+}
+.menu-modal .modal-header, .menu-modal .modal-footer {
+  border: none;
+}
