@@ -1,11 +1,16 @@
 ﻿@import '../_variables.scss';
 
 .menu-modal {
-  & .modal-content {
-    background-color: #{$menu-modal-bg};
-    color: #{$menu-modal-color};
-  }
-  & .modal-header, .modal-footer {
-    border: none;
-  }
+    & .modal-content {
+        background-color: #{$menu-modal-bg};
+        color: #{$menu-modal-color};
+    }
+
+    & .modal-header, .modal-footer {
+        border: none;
+    }
+}
+
+.menu-btn {
+  box-shadow: #{$shadow};
 }

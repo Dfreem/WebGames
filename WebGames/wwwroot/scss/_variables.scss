@@ -1,14 +1,23 @@
 ﻿@import "../lib/bootstrap/scss/_functions.scss";
 
 // Bootstrap Colors
-$primary: #0C8D36; 
-$secondary:  #CC6600;
-$tertiary:  #CC3300;
+$primary: #0C8D36;
+$secondary: #CC6600;
+$tertiary: #CC3300;
 $body-bg: #e7eef3;
 $success: #1A7547;
 $shadow: rgba(17,17,17,.537254902) 4px 4px 6px -1px, black inset 1px 1px 4px -1px;
+$orange-peel: #ff9f1c;
+$mint-green: #cbf3f0;
+$light-sea-green: #2ec4b6;
 
-// Snake 
+
+// Chat
+$chat-bg-color: white;
+$chat-border-color: #ff8c00;
+$chat-orange-: #ffbf69;
+
+// Snake
 $food-bg: #ff8c00;
 $grid-cell-bg: #ababab;
 $grid-section-size: 35px;
@@ -17,7 +26,7 @@ $snake-section-bg: #12cca3;
 // Menu Modal
 $menu-modal-bg: #B5B5B5;
 $menu-modal-color: #000000;
-$menu-divider-color:#676767;
+$menu-divider-color: #676767;
 $menu-title-color: #d74709;
 
 @import "../lib/bootstrap/scss/_variables.scss";

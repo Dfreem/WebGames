@@ -1,0 +1,38 @@
+
+<div class="chat-message d-flex @_locationClass" style="background-color: @_backgroundColor;">
+
+    <div class="col-auto">
+
+        <img src="@Player.Avatar" class="chat-avatar" />
+    </div>
+    <div class="col px-2 py-1">
+        @ChildContent
+
+    </div>
+</div>
+
+@code {
+
+    [Parameter]
+    public ChatUser Player { get; set; } = default!;
+
+    [Parameter]
+    public RenderFragment ChildContent { get; set; } = default!;
+
+    string _backgroundColor = string.Empty;
+
+    string _borderColor = string.Empty;
+
+    string _locationClass = string.Empty;
+
+    [Parameter]
+    public MessageLocation Side { get; set; } = MessageLocation.Left;
+
+    protected override void OnInitialized()
+    {
+        _locationClass = Side == MessageLocation.Right ? "flex-row-reverse" : "flex-row";
+        _backgroundColor = $"rgba({Player.BubbleColor.R}, {Player.BubbleColor.G}, {Player.BubbleColor.B}, .2)";
+        _borderColor = $"rgba({Player.BubbleColor.R}, {Player.BubbleColor.G}, {Player.BubbleColor.B}, {Player.BubbleColor.A})";
+        base.OnInitialized();
+    }
+}

@@ -1,7 +1,8 @@
 ﻿@page "/snake"
 @using System.Drawing
-@using WebGames.Games
-@using WebGames.Games.Snake
+@using WebGames.Shared.Games
+@using WebGames.Shared.Components.Menu
+@using WebGames.Shared.Games.Snake
 @inject IJSRuntime _js
 @inject IToastService _toast
 @inject NavigationManager _nav
@@ -11,54 +12,44 @@
 <div class="game-page-title">
     <div class=" m-0 p-0 text-yellow-400">Snek</div>
 </div>
-<div class="container-fluid">
-    <div class="screen-grid mx-auto">
+<Chat CssClass="snake-chat" CurrentPlayer="Player" OtherPlayer="OtherPlayer"></Chat>
 
-        <div class="container">
+@for (int x = 0; x < Game.Grid.GetLength(0); x++)
+{
+    <div class="d-flex flex-wrap justify-content-center">
 
-            @for (int x = 0; x < Game.Grid.GetLength(0); x++)
+        @for (int m = 0; m < Game.Grid.GetLength(1); m++)
+        {
+            switch (Game.Grid[m, x].SectionType)
             {
-                <div class="d-flex flex-wrap row justify-content-center">
-
-                    @for (int m = 0; m < Game.Grid.GetLength(1); m++)
-                    {
-                        switch (Game.Grid[m, x].SectionType)
-                        {
-                            case (SectionType.DefaultSection):
-                                <div class="default-section">
-                                    &emsp;
-                                </div>
-                                break;
-                            case (SectionType.Food):
-                                <div class="food-section">
-                                    &emsp;
-                                </div>
-                                break;
-                            default:
-                                <div class="snake-section">
-                                    &emsp;
-                                </div>
-                                break;
-                        }
-                    }
-                </div>
+                case (SectionType.DefaultSection):
+                    <div class="default-section">
+                        &emsp;
+                    </div>
+                    break;
+                case (SectionType.Food):
+                    <div class="food-section">
+                        &emsp;
+                    </div>
+                    break;
+                default:
+                    <div class="snake-section">
+                        &emsp;
+                    </div>
+                    break;
             }
-        </div>
-
-        <!--
-            Not using a templated component for ease of use. Any content can be displayed inside a Menu.
-            A MenuButton displays child content exactly the same as an HTML button element.
-        -->
-        <Menu Title="Start" MenuId="snake-game" MenuText="@MenuMessage">
-            <MenuButton Key="back-button" CssClass="shadow" BgColor="Color.Orange" OnClick='(() => _nav.NavigateTo("/"))'>
-                Main Menu
-            </MenuButton>
-            <MenuButton Key="start-button" CssClass="shadow" BgColor="Color.PowderBlue" OnClick="((_) => RunGame())">
-                Start
-            </MenuButton>
-        </Menu>
+        }
     </div>
-</div>
+}
+<Menu Title="Start" MenuId="snake-game" MenuText="@MenuMessage">
+    <InputText @bind-Value='Player!.Name'></InputText>
+    <MenuButton Key="back-button" CssClass="shadow" BgColor="Color.Orange" OnClick='(() => _nav.NavigateTo("/"))'>
+        Main Menu
+    </MenuButton>
+    <MenuButton Key="start-button" CssClass="shadow" BgColor="Color.PowderBlue" OnClick="((_) => RunGame())">
+        Start
+    </MenuButton>
+</Menu>
 
 
 @code {
@@ -75,6 +66,10 @@
     public record DebugDTO(string PlayerLocation, string Direction, string DirectionVector, string FoodLocation, int Score, string Grid);
 
     public DebugDTO? Debug { get; set; }
+
+    public ChatUser Player { get; set; } = new();
+
+    public ChatUser OtherPlayer { get; set; } = new();
 
     protected override async Task OnInitializedAsync()
     {
@@ -110,6 +105,10 @@
 
     public async Task RunGame()
     {
+        if (Player.Name == string.Empty)
+        {
+            Player.Name = "Player 1";
+        }
         await Manager.Run();
         StateHasChanged();
     }
@@ -134,7 +133,12 @@
         await module.InvokeVoidAsync("initKeyboardListener", DotNetObjectReference.Create(KeyWatcher));
         Manager.Update += Update;
         Game.Player.Snake_Dead += (sender, args) => _ = OnGameOver(sender, args);
-        await _menuJs.ShowModalAsync("snake-game");
+        // await _menuJs.ShowModalAsync("snake-game");
+
+    }
+
+    public void SetPlayerNames(EditContext ctx)
+    {
 
     }
 }

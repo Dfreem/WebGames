@@ -18,5 +18,9 @@
   {
     "outputFile": "wwwroot/css/components/menu_modal.css",
     "inputFile": "wwwroot/scss/components/menu_modal.scss"
+  },
+  {
+    "outputFile": "wwwroot/css/components/chat.css",
+    "inputFile": "wwwroot/scss/components/chat.scss"
   }
 ]

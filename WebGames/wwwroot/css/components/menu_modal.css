@@ -5,3 +5,7 @@
 .menu-modal .modal-header, .menu-modal .modal-footer {
   border: none;
 }
+
+.menu-btn {
+  box-shadow: rgba(17, 17, 17, 0.537254902) 4px 4px 6px -1px, black inset 1px 1px 4px -1px;
+}

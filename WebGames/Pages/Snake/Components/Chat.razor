@@ -1,0 +1,32 @@
+﻿<div class="chat @CssClass">
+    @foreach (var message in Messages)
+    {
+        MessageLocation messageLocation = message.Player.Name == CurrentPlayer.Name ? MessageLocation.Left : MessageLocation.Right;
+        Color bgColor = message.Player.Name == CurrentPlayer.Name ? Color.Brown : Color.BlueViolet;
+        <ChatMessage Side="@messageLocation" Player="message.Player" BackgroundColor="bgColor">
+            @message.Message
+        </ChatMessage>
+
+    }
+</div>
+@code {
+
+    public record ChatMessage(ChatUser Player, string Message);
+
+    public List<ChatMessage> Messages { get; set; } = [];
+
+    [Parameter]
+    public ChatUser CurrentPlayer { get; set; } = default!;
+
+    [Parameter]
+    public ChatUser OtherPlayer { get; set; } = default!;
+
+    [Parameter]
+    public string CssClass { get; set; } = "";
+
+    protected override void OnInitialized()
+    {
+
+        base.OnInitialized();
+    }
+}
